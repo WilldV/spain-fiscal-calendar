@@ -13,6 +13,8 @@ import { RedisModule } from './redis/redis.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    MongooseModule.forRoot(process.env.MONGO_URL),
+    RedisModule,
     AuthModule,
     UsersModule,
   ],
