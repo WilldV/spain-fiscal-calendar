@@ -1,3 +1,4 @@
+import { BaseSchema } from '@common/classes/BaseSchema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -9,7 +10,7 @@ export enum UserRole {
 export type UserDocument = User & Document;
 
 @Schema({ timestamps: true })
-export class User {
+export class User extends BaseSchema {
   @Prop({ unique: true, required: true })
   email: string;
 
