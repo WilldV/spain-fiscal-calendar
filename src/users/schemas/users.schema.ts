@@ -1,6 +1,6 @@
 import { BaseSchema } from '@common/classes/BaseSchema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export enum UserRole {
   USER,
@@ -19,6 +19,9 @@ export class User extends BaseSchema {
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ type: [String] })
+  tags?: string[];
 
   validatePassword: Function;
 }

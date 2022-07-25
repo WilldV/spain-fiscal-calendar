@@ -2,7 +2,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { RedisClientType } from 'redis';
-import { User } from 'src/users/models/users.schema';
+import { User } from 'src/users/schemas/users.schema';
 
 @Injectable()
 export class AuthService {

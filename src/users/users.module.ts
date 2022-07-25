@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { compare, compareSync, genSalt, hash } from 'bcryptjs';
-import { User, UserSchema } from './models/users.schema';
+import { User, UserSchema } from './schemas/users.schema';
 import { UsersService } from './users.service';
 
 @Module({
