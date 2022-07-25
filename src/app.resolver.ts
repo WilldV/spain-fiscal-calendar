@@ -1,16 +1,18 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { MessageOutput } from '@common/types';
+import { Inject } from '@nestjs/common';
+import { Query, Resolver } from '@nestjs/graphql';
 import { InjectConnection } from '@nestjs/mongoose';
-import { RedisClientType } from '@redis/client';
 import { Connection } from 'mongoose';
+import { RedisClientType } from 'redis';
 
-@Controller()
-export class AppController {
+@Resolver()
+export class AppResolver {
   constructor(
     @InjectConnection() private connection: Connection,
     @Inject('REDIS_CLIENT') private readonly redis: RedisClientType,
   ) {}
 
-  @Get('test-db')
+  @Query(() => MessageOutput)
   async testDbConnection() {
     await this.connection.collection('test').find().toArray();
 
@@ -19,7 +21,7 @@ export class AppController {
     };
   }
 
-  @Get('test-redis')
+  @Query(() => MessageOutput)
   async testRedisConnection() {
     await this.redis.get('dummy');
 

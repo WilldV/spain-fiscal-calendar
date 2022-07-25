@@ -25,10 +25,10 @@ export class AuthService {
       };
     }
 
-    return null;
+    throw new UnauthorizedException();
   }
 
-  async login(user: Partial<User>) {
+  async generateTokens(user: Partial<User>) {
     const accessPayload = {
       id: user._id,
       email: user.email,
@@ -57,6 +57,12 @@ export class AuthService {
     };
   }
 
+  async login(email: string, pass: string) {
+    const user = await this.validateUser(email, pass);
+
+    return this.generateTokens(user);
+  }
+
   async refresh(refreshToken: string) {
     let decoded;
 
@@ -80,7 +86,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    return this.login({
+    return this.generateTokens({
       _id: user._id.toString(),
       role: user.role,
       email: user.email,

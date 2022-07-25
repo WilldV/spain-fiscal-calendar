@@ -1,0 +1,24 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type LoginOutput {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type MessageOutput {
+  message: String!
+}
+
+type Mutation {
+  login(email: String!, password: String!): LoginOutput!
+  refresh(refreshToken: String!): LoginOutput!
+}
+
+type Query {
+  testDbConnection: MessageOutput!
+  testRedisConnection: MessageOutput!
+  testSkipAuth: MessageOutput!
+  testToken: MessageOutput!
+}

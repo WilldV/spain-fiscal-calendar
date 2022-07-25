@@ -1,6 +1,12 @@
 import { IS_PUBLIC_KEY } from '@common/decorators/skip-auth.decorator';
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
@@ -9,7 +15,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     super();
   }
 
-  canActivate(context: ExecutionContext) {
+  canActivate(ctx: ExecutionContext) {
+    const context = GqlExecutionContext.create(ctx);
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -17,7 +24,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (isPublic) {
       return true;
     }
-
-    return super.canActivate(context);
+    const { req } = context.getContext();
+    return super.canActivate(new ExecutionContextHost([req]));
   }
 }
