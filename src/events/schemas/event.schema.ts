@@ -1,58 +1,82 @@
 import { BaseSchema } from '@common/classes/BaseSchema';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+@ObjectType()
 export class EventContent {
+  @Field({ nullable: true })
   text?: string;
 
+  @Field({ nullable: true })
   secondText?: string;
 
-  firstLevel: FirstLevel;
+  @Field(() => [FirstLevel])
+  firstLevel: FirstLevel[];
 }
 
+@ObjectType()
 export class FirstLevel {
+  @Field()
   text: string;
 
+  @Field({ nullable: true })
   secondText?: string;
 
-  secondLevel?: SecondLevel;
+  @Field(() => [SecondLevel])
+  secondLevel?: SecondLevel[];
 }
 
+@ObjectType()
 export class SecondLevel {
+  @Field()
   text: string;
 
+  @Field({ nullable: true })
   secondText?: string;
 }
 
 export type EventDocument = Event & Document;
 
+@ObjectType()
 @Schema({ timestamps: true })
 export class Event extends BaseSchema {
+  @Field({ nullable: true })
   @Prop({ type: Date })
   startDate?: Date;
 
+  @Field()
   @Prop({ type: Date, required: true })
   endDate: Date;
 
+  @Field()
   @Prop({ type: String, required: true })
   title: string;
 
+  @Field(() => [EventContent])
   @Prop(
-    raw({
-      text: { type: String },
-      secondText: { type: String },
-      firstLevel: {
-        text: { type: String, required: true },
+    raw([
+      {
+        text: { type: String },
         secondText: { type: String },
-        secondLevel: {
-          text: { type: String, required: true },
-          secondText: { type: String },
-        },
+        firstLevel: [
+          {
+            text: { type: String, required: true },
+            secondText: { type: String },
+            secondLevel: [
+              {
+                text: { type: String, required: true },
+                secondText: { type: String },
+              },
+            ],
+          },
+        ],
       },
-    }),
+    ]),
   )
-  content: EventContent;
+  content: EventContent[];
 
+  @Field(() => [String])
   @Prop({ type: [String] })
   tags?: string[];
 }

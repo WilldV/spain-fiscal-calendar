@@ -1,4 +1,4 @@
-import { MessageOutput } from '@common/types';
+import { MessageOutput } from '@common/dto';
 import { Inject } from '@nestjs/common';
 import { Query, Resolver } from '@nestjs/graphql';
 import { InjectConnection } from '@nestjs/mongoose';

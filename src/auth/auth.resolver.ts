@@ -1,8 +1,8 @@
 import { SkipAuth } from '@common/decorators/skip-auth.decorator';
-import { MessageOutput } from '@common/types';
+import { MessageOutput } from '@common/dto';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { LoginInput, LoginOutput } from './types';
+import { LoginInput, LoginOutput } from './dto';
 
 @Resolver()
 export class AuthResolver {
