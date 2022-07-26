@@ -1,9 +1,5 @@
 import { IS_PUBLIC_KEY } from '@common/decorators/skip-auth.decorator';
-import {
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { GqlExecutionContext } from '@nestjs/graphql';

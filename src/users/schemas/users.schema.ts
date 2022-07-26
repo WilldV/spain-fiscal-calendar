@@ -23,7 +23,7 @@ export class User extends BaseSchema {
   @Prop({ type: [String] })
   tags?: string[];
 
-  validatePassword: Function;
+  validatePassword: (pass: string) => boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
