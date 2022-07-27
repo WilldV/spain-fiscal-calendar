@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { ObjectIdInput } from '../common';
 import { CreateEventInput } from './dto/CreateEventInput.dto';
 import { EventsService } from './events.service';
 import { Event } from './schemas/event.schema';
@@ -8,7 +9,7 @@ export class EventsResolver {
   constructor(private eventsService: EventsService) {}
 
   @Query(() => Event, { nullable: true, name: 'event' })
-  async getById(@Args('id') id: string) {
+  async getById(@Args() { id }: ObjectIdInput) {
     return this.eventsService.findById(id);
   }
 
@@ -23,12 +24,12 @@ export class EventsResolver {
   }
 
   @Mutation(() => Event, { nullable: true, name: 'updateEventById' })
-  async update(@Args('id') id: string, @Args() input: CreateEventInput) {
+  async update(@Args() { id }: ObjectIdInput, @Args() input: CreateEventInput) {
     return this.eventsService.updateById(id, input);
   }
 
   @Mutation(() => Event, { nullable: true, name: 'deleteEventById' })
-  async deleteById(@Args('id') id: string) {
+  async deleteById(@Args() { id }: ObjectIdInput) {
     return this.eventsService.deleteById(id);
   }
 }

@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 export abstract class BaseService<T> {
   constructor(protected model: Model<T>) {}
 
-  async findById(id: string | number) {
+  async findById(id: string) {
     return this.model.findById(id);
   }
 
@@ -19,11 +19,11 @@ export abstract class BaseService<T> {
     return this.model.create(payload);
   }
 
-  async updateById(id: string | number, payload: Partial<T>) {
+  async updateById(id: string, payload: Partial<T>) {
     return this.model.findByIdAndUpdate(id, payload);
   }
 
-  async deleteById(id: string | number) {
+  async deleteById(id: string) {
     return this.model.findByIdAndDelete(id);
   }
 }

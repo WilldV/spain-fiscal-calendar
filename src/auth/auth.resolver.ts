@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { SkipAuth, MessageOutput } from '../common';
 import { AuthService } from './auth.service';
-import { LoginInput, LoginOutput } from './dto';
+import { LoginInput, LoginOutput, RefreshTokenInput } from './dto';
 
 @Resolver()
 export class AuthResolver {
@@ -15,7 +15,7 @@ export class AuthResolver {
 
   @SkipAuth()
   @Mutation(() => LoginOutput)
-  async refresh(@Args('refreshToken') refreshToken: string) {
+  async refresh(@Args() { refreshToken }: RefreshTokenInput) {
     return this.authService.refresh(refreshToken);
   }
 
