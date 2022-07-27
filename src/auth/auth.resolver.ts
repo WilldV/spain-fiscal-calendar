@@ -1,6 +1,5 @@
-import { SkipAuth } from '@common/decorators/skip-auth.decorator';
-import { MessageOutput } from '@common/dto';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { SkipAuth, MessageOutput } from '../common';
 import { AuthService } from './auth.service';
 import { LoginInput, LoginOutput } from './dto';
 

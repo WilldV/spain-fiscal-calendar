@@ -1,9 +1,9 @@
-import { IS_PUBLIC_KEY } from '@common/decorators/skip-auth.decorator';
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from '@nestjs/passport';
+import { IS_PUBLIC_KEY } from '../../common';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

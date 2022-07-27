@@ -1,7 +1,7 @@
-import { BaseSchema } from '@common/classes/BaseSchema';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { BaseSchema } from '../../common';
 
 @ObjectType()
 export class EventContent {

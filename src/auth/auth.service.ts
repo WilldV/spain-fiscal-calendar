@@ -1,15 +1,15 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { RedisClientType } from 'redis';
-import { User } from 'src/users/schemas/users.schema';
+import { REDIS_CLIENT } from '../redis';
+import { User, UsersService } from '../users';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-    @Inject('REDIS_CLIENT') private readonly redis: RedisClientType,
+    @Inject(REDIS_CLIENT) private readonly redis: RedisClientType,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {

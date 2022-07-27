@@ -1,15 +1,16 @@
-import { MessageOutput } from '@common/dto';
 import { Inject } from '@nestjs/common';
 import { Query, Resolver } from '@nestjs/graphql';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { RedisClientType } from 'redis';
+import { MessageOutput } from './common';
+import { REDIS_CLIENT } from './redis';
 
 @Resolver()
 export class AppResolver {
   constructor(
     @InjectConnection() private connection: Connection,
-    @Inject('REDIS_CLIENT') private readonly redis: RedisClientType,
+    @Inject(REDIS_CLIENT) private readonly redis: RedisClientType,
   ) {}
 
   @Query(() => MessageOutput)
