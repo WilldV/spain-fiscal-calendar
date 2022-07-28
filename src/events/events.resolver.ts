@@ -1,6 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FiltersInput, ObjectIdInput, ParseFiltersPipe } from '../common';
+import { PaginationInput } from '../common/dto/PaginationInput.dto';
 import { CreateEventInput } from './dto/CreateEventInput.dto';
+import { PaginatedEventsOutput } from './dto/PaginatedEventsOutput.dto';
 import { EventsService } from './events.service';
 import { Event } from './schemas/event.schema';
 
@@ -13,13 +15,25 @@ export class EventsResolver {
     return this.eventsService.findById(id);
   }
 
-  @Query(() => [Event], { name: 'events' })
+  @Query(() => PaginatedEventsOutput, { name: 'events' })
   async getAll(
     @Args(ParseFiltersPipe)
     filterInput: FiltersInput,
+    @Args() { limit, offset }: PaginationInput,
   ) {
     //TODO: Improve this typing or change validation approach
-    return this.eventsService.find(filterInput as any);
+    const { count, result } = await this.eventsService.findAndCount(
+      filterInput as any,
+      limit,
+      offset,
+    );
+
+    return {
+      totalCount: count,
+      elements: result,
+      limit,
+      offset,
+    };
   }
 
   @Mutation(() => Event, { name: 'createEvent' })

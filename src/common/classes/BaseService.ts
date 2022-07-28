@@ -11,8 +11,20 @@ export abstract class BaseService<T> {
     return this.model.findOne(query);
   }
 
-  async find(query: Partial<T>) {
-    return this.model.find(query);
+  async find(query: Partial<T>, limit = 10, offset = 0) {
+    return this.model.find(query).skip(offset).limit(limit);
+  }
+
+  async findAndCount(query: Partial<T>, limit = 10, offset = 0) {
+    const [count, result] = await Promise.all([
+      this.model.countDocuments(query),
+      this.model.find(query).skip(offset).limit(limit),
+    ]);
+
+    return {
+      count,
+      result,
+    };
   }
 
   async create(payload: Partial<T>) {

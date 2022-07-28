@@ -59,9 +59,16 @@ type Mutation {
   updateEventById(content: [ContentInput!]!, endDate: DateTime!, id: String!, startDate: DateTime, tags: [String!], title: String!): Event
 }
 
+type PaginatedEventsOutput {
+  elements: [Event!]
+  limit: Int!
+  offset: Int!
+  totalCount: Int!
+}
+
 type Query {
   event(id: String!): Event
-  events(filter: String): [Event!]!
+  events(filter: String, limit: Float!, offset: Float!): PaginatedEventsOutput!
   testDbConnection: MessageOutput!
   testRedisConnection: MessageOutput!
   testSkipAuth: MessageOutput!
