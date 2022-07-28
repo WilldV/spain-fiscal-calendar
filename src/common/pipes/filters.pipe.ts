@@ -9,7 +9,7 @@ export class ParseFiltersPipe
   transform({ filter }: FiltersInput): Record<string, any> {
     const stringFilter = filter;
 
-    let finalFilter = {};
+    const finalFilter = {};
 
     if (stringFilter) {
       const pairs = stringFilter.split('&');
