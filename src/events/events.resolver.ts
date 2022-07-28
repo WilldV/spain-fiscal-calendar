@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ObjectIdInput } from '../common';
+import { FiltersInput, ObjectIdInput, ParseFiltersPipe } from '../common';
 import { CreateEventInput } from './dto/CreateEventInput.dto';
 import { EventsService } from './events.service';
 import { Event } from './schemas/event.schema';
@@ -9,13 +9,17 @@ export class EventsResolver {
   constructor(private eventsService: EventsService) {}
 
   @Query(() => Event, { nullable: true, name: 'event' })
-  async getById(@Args() { id }: ObjectIdInput) {
+  async getById(@Args(ParseFiltersPipe) { id }: ObjectIdInput) {
     return this.eventsService.findById(id);
   }
 
   @Query(() => [Event], { name: 'events' })
-  async getAll() {
-    return this.eventsService.find({});
+  async getAll(
+    @Args(ParseFiltersPipe)
+    filterInput: FiltersInput,
+  ) {
+    //TODO: Improve this typing or change validation approach
+    return this.eventsService.find(filterInput as any);
   }
 
   @Mutation(() => Event, { name: 'createEvent' })

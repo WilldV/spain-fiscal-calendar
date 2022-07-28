@@ -61,7 +61,7 @@ type Mutation {
 
 type Query {
   event(id: String!): Event
-  events: [Event!]!
+  events(filter: String): [Event!]!
   testDbConnection: MessageOutput!
   testRedisConnection: MessageOutput!
   testSkipAuth: MessageOutput!
